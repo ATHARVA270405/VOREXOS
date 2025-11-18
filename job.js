@@ -41,5 +41,19 @@ document.getElementById("resumeInput").addEventListener("change", function() {
             "Selected File: " + file.name;
     }
 });
+// RESUME SUCCESS MESSAGE
+document.getElementById("resumeInput").addEventListener("change", function () {
+    const file = this.files[0];
+
+    if (file) {
+        document.getElementById("fileName").innerHTML =
+            "Selected File: " + file.name;
+
+        // Add success message
+        const successDiv = document.getElementById("uploadSuccess");
+        successDiv.innerHTML = "✅ Resume uploaded successfully!";
+        successDiv.style.display = "block";
+    }
+});
 
 
