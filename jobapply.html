@@ -1,0 +1,343 @@
+<!DOCTYPE html> <!-- Corrected DOCTYPE -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vorexo Job Application Portal</title>
+    <!-- 1. External dependencies and font -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
+    <!-- 2. CSS STYLES (Includes all custom styles and updated navbar hover) -->
+    <style>
+        .particle-container {
+    position: fixed; /* Stays in place when scrolling */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* VERY IMPORTANT: Allows clicks/selection through the particles to the content below */
+    z-index: 10; /* Make sure it's above your main content */
+}
+
+/* Style for individual particles */
+.particle {
+    position: absolute;
+    border-radius: 50%; /* Makes them circular */
+    opacity: 0.7;
+    /* Add a subtle glow effect, similar to the video */
+    box-shadow: 0 0 4px rgba(255, 255, 255, 0.7); 
+}
+
+        /* Setup Inter Font and Base Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+            /* Remove display: flex, justify-content, align-items, min-height from body */
+            /* The main content div will handle centering */
+            padding-top: 120px; /* Adjusted padding to account for the fixed navbar height (h-28) */
+            box-sizing: border-box;
+            color: #fff; /* Ensure default text color for body is white for contrast with dark background */
+        }
+         
+        
+        /* --- Navbar Specific Styling: UPDATED FOR WHITE/BLACK HOVER --- */
+        .nav-link {
+            /* Added background-color transition for smooth effect */
+            transition: color 0.3s ease, transform 0.2s ease, background-color 0.3s ease;
+            position: relative;
+            padding: 10px 12px; /* Added padding to define the hoverable 'field' area */
+            border-radius: 8px; /* Rounded corners for a modern button look */
+        }
+
+        .navbar-logo {
+            /* Use the uploaded image file name */
+            height: 80px; /* Logo size - based on user's input */
+            width: auto;
+            position: relative;
+            top: 1px;
+            /* Adjusts the white logo to stand out against the dark blur */
+            filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.5));
+        }
+
+        .nav-link:hover {
+            color: #000000 !important; /* Text color changes to BLACK */
+            background-color: #ffffff; /* Background changes to WHITE */
+            transform: translateY(-1px);
+        }
+
+        /* Removed the old underline animation for clarity with the new hover style */
+        .nav-link::after {
+            display: none;
+        }
+        /* --- End Navbar Specific Styling --- */
+
+        /* --- Form & Animation Styles --- */
+
+        /* Custom Input Focus Animation */
+        .custom-input {
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #d1d5db; /* Default border color */
+        }
+
+        .custom-input:focus {
+            border-color: #4f46e5; /* Indigo-600 */
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3); /* Subtle ring effect */
+            outline: none;
+        }
+
+        /* Custom Button Hover Effect (Bubble/Pulse) */
+        .submit-button {
+            position: relative;
+            overflow: hidden;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+        }
+
+        .submit-button::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 50%;
+            transform: scale(1, 1) translate(-50%);
+            transition: all 0.5s ease-out;
+        }
+
+        .submit-button:hover::after {
+            transform: scale(300, 300) translate(-50%);
+            opacity: 0.2;
+            transition: all 0.7s ease-out;
+        }
+
+        /* Custom File Upload Styling */
+        .file-upload-label {
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            cursor: pointer;
+            border: 2px dashed #93c5fd; /* Blue-300 dashed border */
+        }
+
+        .file-upload-label:hover {
+            background-color: #eff6ff; /* Blue-50 on hover */
+            border-color: #3b82f6; /* Blue-500 on hover */
+        }
+
+        /* Message Box Styling */
+        #message-box {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(-100px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+        .show-message {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+    </style>
+</head>
+<div class="particle-container"></div>
+<body class="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-700 min-h-screen part  main-content">
+    <!-- 3. Navigation Bar (Top Fixed) -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-gray-900 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Adjusted height to h-28 to better fit the 100px logo -->
+            <div class="flex justify-between items-center h-28">
+
+                <!-- Logo and Back Button Container -->
+                <div class="flex items-center space-x-4">
+                    <!-- NEW: Back Arrow Button (uses history.back() for navigation) -->
+                    <button onclick="history.back()"
+                            title="Go Back"
+                            class="p-2 text-gray-300 hover:text-black hover:bg-white rounded-full transition duration-300 focus:outline-none focus:ring-2 focus:ring-white">
+                        <!-- SVG for Left Arrow -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                    </button>
+                    <!-- Logo -->
+                    <img src="PIC/Logo.png" class="navbar-logo"
+                         alt="AV VOREXO Logo"/>
+                </div>
+
+                <!-- Desktop Menu Links (Removed conflicting hover utility classes) -->
+                <div class="hidden lg:flex items-center space-x-2">
+                    <a href="#" class="nav-link text-gray-300 font-medium">Services</a>
+                    <a href="#" class="nav-link text-gray-300 font-medium">Courses</a>
+                    <a href="#" class="nav-link text-gray-300 font-medium">Jobs</a>
+                    <a href="#" class="nav-link text-gray-300 font-medium">Projects</a>
+                    <!-- Active link example (simplified to match new style) -->
+                    <a href="#" class="nav-link text-gray-300 font-medium">Testimonials</a>
+                    <a href="#" class="nav-link text-gray-300 font-medium">Portfolio</a>
+                </div>
+
+                <!-- Action Button (Get Started) - You might want to uncomment and style this if needed -->
+                <!--
+                <a href="#" class="inline-flex items-center justify-center px-5 py-2 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+                    Get Started
+                </a>
+                -->
+            </div>
+        </div>
+    </nav>
+
+    <!-- 4. Main content wrapper for centering -->
+    <div class="flex flex-col items-center justify-center min-h-screen w-full px-4 pt-32 pb-8">
+        <!-- Main Application Card Container -->
+        <div class="w-full max-w-2xl bg-white p-6 md:p-10 rounded-2xl shadow-2xl transition duration-500 hover:shadow-3xl">
+            <h1 class="text-3xl font-extrabold text-gray-800 mb-2">Join Our Team</h1>
+            <p class="text-gray-500 mb-8">Fill out your details below to submit your application.</p>
+
+            <form id="jobApplicationForm" class="space-y-6">
+
+                <!-- Section 1: Personal Details -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="fullName" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                        <input type="text" id="fullName" name="fullName" required placeholder="Name"
+                               class="custom-input w-full p-3 rounded-lg text-gray-900 placeholder-gray-400">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                        <input type="email" id="email" name="email" required placeholder="abc@example.com"
+                               class="custom-input w-full p-3 rounded-lg text-gray-900 placeholder-gray-400">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" placeholder="984xxxxxxx"
+                           class="custom-input w-full p-3 rounded-lg text-gray-900 placeholder-gray-400">
+                </div>
+
+                <!-- Section 2: Experience and Role -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="experience" class="block text-sm font-medium text-gray-700 mb-1">Years of Experience</label>
+                        <select id="experience" name="experience" required
+                                class="custom-input w-full p-3 rounded-lg appearance-none bg-white text-gray-900">
+                            <option value="" disabled selected>Select level</option>
+                            <option value="0-1">0 - 1 Year (Entry Level)</option>
+                            <option value="1-3">1 - 3 Years (Junior)</option>
+                            <option value="3-5">3 - 5 Years (Mid-Level)</option>
+                            <option value="5+">5+ Years (Senior)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="role" class="block text-sm font-medium text-gray-700 mb-1">Target Role</label>
+                        <input type="text" id="role" name="role" placeholder="Software Engineer"
+                               class="custom-input w-full p-3 rounded-lg text-gray-900 placeholder-gray-400">
+                    </div>
+                </div>
+
+                <!-- Section 3: Resume Upload -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Upload Resume (PDF/DOCX)</label>
+                    <input type="file" id="resumeFile" name="resumeFile" accept=".pdf,.doc,.docx" class="hidden" required onchange="handleFileSelect(event)">
+                    <label for="resumeFile" id="fileUploadLabel"
+                           class="file-upload-label flex flex-col items-center justify-center p-8 rounded-xl bg-gray-50 text-gray-500 transition duration-300">
+                        <svg class="w-8 h-8 mb-2 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 014 9H7z"></path></svg>
+                        <span id="fileText" class="text-center font-medium">Click or drag your resume file here</span>
+                        <span class="text-xs mt-1 text-gray-400">Max file size 5MB (PDF, DOCX)</span>
+                    </label>
+                </div>
+
+                <!-- Section 4: Additional Information -->
+                <div>
+                    <label for="coverLetter" class="block text-sm font-medium text-gray-700 mb-1">Cover Letter Summary (Optional)</label>
+                    <textarea id="coverLetter" name="coverLetter" rows="4" placeholder="Briefly summarize why you are a great fit for this role..."
+                              class="custom-input w-full p-3 rounded-lg text-gray-900 placeholder-gray-400 resize-none"></textarea>
+                </div>
+
+                <!-- Submission Button -->
+                <div>
+                    <button type="submit"
+                            class="submit-button w-full px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow-lg hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-opacity-50 mt-4">
+                        Submit Application
+                    </button>
+                </div>
+            </form>
+
+            <!-- Custom Message Box (instead of alert()) -->
+            <div id="message-box" class="bg-green-500 text-white p-4 rounded-lg shadow-xl flex items-center">
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <span id="message-text">Application submitted successfully!</span>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 5. JAVASCRIPT LOGIC (All logic from script.js) -->
+    <script>
+        // JavaScript for form interaction and handling animations
+
+        document.getElementById('jobApplicationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // In a real application, you would collect form data here and send it to a server.
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+
+            console.log("Form Data Submitted:", data);
+
+            // Show the custom submission message
+            showMessage("Application successfully submitted! We'll be in touch.", 'success');
+
+            // Optionally, reset the form after successful submission
+            e.target.reset();
+            // Reset the file label text and style
+            document.getElementById('fileText').textContent = 'Click or drag your resume file here';
+            document.getElementById('fileUploadLabel').classList.remove('bg-indigo-50', 'border-indigo-500');
+        });
+
+        function handleFileSelect(event) {
+            const input = event.target;
+            const fileText = document.getElementById('fileText');
+            const fileLabel = document.getElementById('fileUploadLabel');
+
+            if (input.files.length > 0) {
+                // Animate change on file selection
+                fileText.textContent = `File Selected: ${input.files[0].name}`;
+                fileLabel.classList.add('bg-indigo-50', 'border-indigo-500');
+            } else {
+                fileText.textContent = 'Click or drag your resume file here';
+                fileLabel.classList.remove('bg-indigo-50', 'border-indigo-500');
+            }
+        }
+
+        function showMessage(text, type = 'success') {
+            const msgBox = document.getElementById('message-box');
+            const msgText = document.getElementById('message-text');
+
+            msgText.textContent = text;
+
+            // Set color based on type
+            msgBox.classList.remove('bg-green-500', 'bg-red-500');
+            if (type === 'success') {
+                msgBox.classList.add('bg-green-500');
+            } else if (type === 'error') {
+                msgBox.classList.add('bg-red-500');
+            }
+
+            // Show animation
+            msgBox.classList.add('show-message');
+
+            // Hide animation after 4 seconds
+            setTimeout(() => {
+                msgBox.classList.remove('show-message');
+            }, 4000);
+        }
+    </script>
+    </div>
+</body>
+</html>

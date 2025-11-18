@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floating Contact Widget</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configure Tailwind for Inter font and colors -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#4f46e5',
+                        'secondary': '#6366f1',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- CSS (Equivalent to style.css) - ALL CLASSES ARE NOW PREFIXED WITH 'cw-' -->
+    <style>
+        /* Overlay and Visibility */
+        .cw-overlay {
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s, visibility 0.3s;
+            backdrop-filter: blur(4px);
+        }
+
+        .cw-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Form Panel Animation */
+        .cw-panel {
+            /* Start position (bottom-right, scaled down) */
+            transform: translate(50%, 50%) scale(0.1);
+            opacity: 0;
+            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.8s;
+            transform-origin: bottom right; /* Animation origin from the icon */
+        }
+
+        .cw-panel.active {
+            /* End position (full size) */
+            transform: translate(0, 0) scale(1);
+            opacity: 1;
+        }
+
+        .cw-panel.closing {
+            /* Animation back to the icon */
+            transform: translate(50%, 50%) scale(0.1);
+            opacity: 0;
+            transition: transform 1.0s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 1.0s;
+        }
+
+        /* Success Message - The Fix for Blocked Input */
+        .cw-success {
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            /* CRITICAL FIX: Ensures this invisible layer does NOT block form inputs */
+            pointer-events: none; 
+
+            /* Custom styles for the success state */
+            background-color: rgb(143, 244, 128);
+            border-radius: 15px;
+            border: 2px solid white; 
+            color: black;
+            padding: 5px;
+        }
+
+        .cw-success.show {
+            opacity: 1;
+            /* Only enable clicks on this layer when it's visible */
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50 min-h-screen">
+
+    <!-- Main Content Filler -->
+    <header class="bg-white shadow">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <h1 class="text-3xl font-bold text-gray-900">Landing Page Content</h1>
+        </div>
+    </header>
+    <main class="max-w-7xl mx-auto py-12 sm:px-6 lg:px-8">
+        <div class="px-4 py-8 bg-white shadow-xl rounded-lg space-y-4">
+            <p class="text-gray-700">This is the main content area of your landing page. The contact bot is floating in the bottom-right corner.</p>
+            <p class="text-gray-700">Scroll down to see the filler content.</p>
+            <div class="h-96 bg-gray-100 rounded-lg p-4 text-center text-gray-500">Scrollable Area</div>
+            <div class="h-96 bg-gray-100 rounded-lg p-4 text-center text-gray-500">More Content Below</div>
+        </div>
+    </main>
+
+    <!-- FLOATING CONTACT WIDGET -->
+    <div id="contact-widget">
+        <!-- Floating Icon/Button -->
+        <button id="floating-icon" aria-label="Open Contact Form"
+            class="fixed bottom-6 right-6 z-50 p-4 bg-primary text-white rounded-full shadow-2xl hover:bg-secondary transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-primary focus:ring-opacity-50">
+            <!-- Open Icon -->
+            <svg id="icon-open" class="w-8 h-8 transition-opacity duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
+            </svg>
+            <!-- Close Icon (Initially hidden) -->
+            <svg id="icon-close" class="w-8 h-8 absolute top-4 left-4 opacity-0 transition-opacity duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+
+        <!-- Modal Overlay and Form Container -->
+        <!-- Responsive layout: items-end for mobile (drawer up from bottom), sm:items-center for tablet/desktop (centered) -->
+        <div id="contact-modal-overlay" class="cw-overlay fixed inset-0 z-40 bg-gray-900 bg-opacity-70 flex items-end sm:items-center justify-center p-4">
+            <!-- Form Panel (Animates from the icon position) -->
+            <div id="contact-form-panel" class="cw-panel bg-white rounded-xl shadow-2xl max-w-lg w-full p-6 sm:p-8 relative">
+                
+                <!-- Internal Close Button -->
+                <button onclick="closeForm()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition focus:outline-none" aria-label="Close form">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+
+                <!-- Form Content -->
+                <div id="form-content" class="transition-opacity duration-300">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-2">Get in Touch</h2>
+                    <p class="text-gray-600 mb-6">We'd love to hear from you. Please fill out the details below.</p>
+
+                    <form id="contact-form" onsubmit="event.preventDefault(); handleSubmit();">
+                        <div class="space-y-4">
+                            <!-- Name Field -->
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
+                                <input type="text" id="name" name="name" required
+                                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition"
+                                    placeholder="Jane Doe">
+                            </div>
+
+                            <!-- Email Field -->
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                                <input type="email" id="email" name="email" required
+                                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition"
+                                    placeholder="jane.doe@example.com">
+                            </div>
+
+                            <!-- Phone Number Field -->
+                            <div>
+                                <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number (Optional)</label>
+                                <input type="tel" id="phone" name="phone"
+                                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition"
+                                    placeholder="(123) 456-7890">
+                            </div>
+
+                            <!-- Other Details/Message Field -->
+                            <div>
+                                <label for="details" class="block text-sm font-medium text-gray-700">Message / Other Details</label>
+                                <textarea id="details" name="details" rows="3" required
+                                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition"
+                                    placeholder="Tell us what you need help with..."></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="mt-6">
+                            <button type="submit" id="submit-btn"
+                                class="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-md text-sm font-medium text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition duration-300 ease-in-out">
+                                <span id="submit-text">Submit Inquiry</span>
+                                <svg id="spinner" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Success Message -->
+                <div id="success-message" class="cw-success absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
+                    <svg class="w-16 h-16 text-primary mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Thank You!</h3>
+                    <p class="text-gray-600">We received your request and will contact you soon via email or phone.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT (Equivalent to script.js) - Class references updated -->
+    <script>
+        const floatingIcon = document.getElementById('floating-icon');
+        const contactOverlay = document.getElementById('contact-modal-overlay');
+        const formPanel = document.getElementById('contact-form-panel');
+        const contactForm = document.getElementById('contact-form');
+        const formContent = document.getElementById('form-content');
+        const successMessage = document.getElementById('success-message');
+        const submitBtn = document.getElementById('submit-btn');
+        const submitText = document.getElementById('submit-text');
+        const spinner = document.getElementById('spinner');
+        const iconOpen = document.getElementById('icon-open');
+        const iconClose = document.getElementById('icon-close');
+        let isFormOpen = false;
+
+        /**
+         * Simulates an API call with exponential backoff.
+         */
+        async function exponentialBackoffFetch(retries = 3, delay = 1000) {
+            for (let i = 0; i < retries; i++) {
+                try {
+                    // Simulate a successful network request delay for UX
+                    await new Promise(resolve => setTimeout(resolve, 1500));
+                    return { ok: true, json: async () => ({ status: 'success' }) };
+                } catch (error) {
+                    console.error(`Attempt ${i + 1} failed.`, error);
+                    if (i === retries - 1) throw error;
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    delay *= 2; // Exponential backoff
+                }
+            }
+        }
+
+        /**
+         * Opens the contact form modal with animation.
+         */
+        function openForm() {
+            if (isFormOpen) return;
+            isFormOpen = true;
+
+            // Reset UI state
+            contactForm.reset();
+            formPanel.classList.remove('cw-panel-closing');
+            formContent.style.opacity = 1;
+            
+            // Ensure success message is hidden and inputs are clickable
+            successMessage.classList.remove('cw-success-show');
+            formContent.classList.remove('hidden');
+
+            // 1. Show the overlay and form container
+            contactOverlay.classList.add('active');
+
+            // 2. Animate the panel into view
+            setTimeout(() => {
+                formPanel.classList.add('active'); // This refers to .cw-panel.active
+            }, 10);
+
+            // 3. Update the icon
+            iconOpen.style.opacity = 0;
+            iconClose.style.opacity = 1;
+        }
+
+        /**
+         * Closes the contact form modal with animation.
+         */
+        function closeForm() {
+            if (!isFormOpen) return;
+            isFormOpen = false;
+
+            // 1. Animate the panel back into the icon position
+            formPanel.classList.remove('active');
+            formPanel.classList.add('closing'); // This refers to .cw-panel.closing
+
+            // 2. Hide the overlay after the animation completes.
+            setTimeout(() => {
+                contactOverlay.classList.remove('active');
+                formPanel.classList.remove('closing');
+                
+                // Reset content visibility for next open
+                formContent.classList.remove('hidden');
+                formContent.style.opacity = 1;
+            }, 1000);
+
+            // 3. Update the icon
+            iconOpen.style.opacity = 1;
+            iconClose.style.opacity = 0;
+        }
+
+        /**
+         * Handles form submission logic.
+         */
+        async function handleSubmit() {
+            const formData = new FormData(contactForm);
+            const data = Object.fromEntries(formData.entries());
+
+            console.log('Form data submitted:', data);
+
+            // Disable button and show spinner
+            submitBtn.disabled = true;
+            submitText.classList.add('hidden');
+            spinner.classList.remove('hidden');
+
+            try {
+                await exponentialBackoffFetch();
+
+                // 1. Hide the form content and show success message
+                formContent.style.opacity = 0;
+                setTimeout(() => {
+                    formContent.classList.add('hidden');
+                    successMessage.classList.add('show'); // This refers to .cw-success.show
+                }, 300);
+
+                // 2. Start the closing animation after a delay (to let the user read the message)
+                setTimeout(() => {
+                    closeForm();
+                }, 2500); 
+
+            } catch (error) {
+                console.error('Submission failed. Please check your network connection.');
+                closeForm();
+            } finally {
+                // Re-enable button and hide spinner
+                submitBtn.disabled = false;
+                submitText.classList.remove('hidden');
+                spinner.classList.add('hidden');
+            }
+        }
+
+        // --- Event Listeners ---
+
+        // Toggle the form open/close when clicking the floating icon
+        floatingIcon.addEventListener('click', () => {
+            if (contactOverlay.classList.contains('active')) {
+                // Only allow closing if a submission is not currently in progress
+                if (submitBtn.disabled === false) {
+                    closeForm();
+                }
+            } else {
+                openForm();
+            }
+        });
+
+        // Close the form if the user clicks the dark background overlay
+        contactOverlay.addEventListener('click', (e) => {
+            if (e.target === contactOverlay) {
+                if (submitBtn.disabled === false) {
+                    closeForm();
+                }
+            }
+        });
+
+        // Initial setup for the close icon state
+        iconClose.style.opacity = 0;
+
+    </script>
+</body>
+</html>

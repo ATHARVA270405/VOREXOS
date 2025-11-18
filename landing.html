@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>VOREXO</title>
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+      <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#4f46e5',
+                        'secondary': '#6366f1',
+                    }
+                }
+            }
+        }
+    </script>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="landing.css">
+</head> 
+
+
+<body>
+<!----1st Section -->
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-lg">
+    <div class="container">
+      <a class="navbar-brand fw-bold d-flex align-items-center" href="#">
+        <img src="PIC/Logo.png" alt="Vorexo Logo" class="navbar-logo me-2"> 
+        VOREXO
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto me-3">
+          <li class="nav-item"><a class="nav-link" href="#service">Services</a></li>
+          <li class="nav-item"><a class="nav-link" href="#courses">Courses</a></li>
+          <li class="nav-item"><a class="nav-link" href="#career_opportunities">Jobs</a></li>
+          <li class="nav-item"><a class="nav-link" href="#final_courses">Projects</a></li>
+          <li class="nav-item"><a class="nav-link" href="portfolio.html">Portfolio</a></li>
+          <li class="nav-item"><a class="nav-link" href="aboutus.html">About Us</a></li>
+        </ul>
+        <button class="btn btn-primary px-4">Get Started</button>
+      </div>
+    </div>
+  </nav>
+   <div class="back"></div>
+
+    <!-- FLOATING CONTACT WIDGET -->
+    <div id="contact-widget">
+        <!-- Floating Icon/Button -->
+        <button id="floating-icon" aria-label="Open Contact Form"
+            class="fixed bottom-6 right-6 z-50 p-3 bg-primary text-white rounded-full shadow-2xl hover:bg-secondary transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-primary focus:ring-opacity-50">
+            <!-- Open Icon -->
+            <svg id="icon-open" class="w-8 h-8 transition-opacity duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
+            </svg>
+            <!-- Close Icon (Initially hidden) -->
+            <svg id="icon-close" class="w-8 h-8 absolute top-4 left-4 opacity-0 transition-opacity duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+
+        <!-- Modal Overlay and Form Container -->
+        <!-- Responsive layout: items-end for mobile (drawer up from bottom), sm:items-center for tablet/desktop (centered) -->
+        <div id="contact-modal-overlay" class="cw-overlay fixed inset-0 z-40 bg-gray-900 bg-opacity-70 flex items-end sm:items-center justify-center p-4">
+            <!-- Form Panel (Animates from the icon position) -->
+            <div id="contact-form-panel" class="cw-panel bg-white rounded-xl shadow-2xl max-w-lg w-full p-6 sm:p-8 relative">
+                
+                <!-- Internal Close Button -->
+                <button onclick="closeForm()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition focus:outline-none" aria-label="Close form">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+
+                <!-- Form Content -->
+                <div id="form-content" class="transition-opacity duration-300">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-2">Get in Touch</h2>
+                    <p class="text-gray-600 mb-6">We'd love to hear from you. Please fill out the details below.</p>
+
+                    <form id="contact-form" onsubmit="event.preventDefault(); handleSubmit();">
+                        <div class="space-y-4">
+                            <!-- Name Field -->
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
+                                <input type="text" id="name" name="name" required
+                                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition"
+                                    placeholder="Name">
+                            </div>
+
+                            <!-- Email Field -->
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                                <input type="email" id="email" name="email" required
+                                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition"
+                                    placeholder="abc@example.com">
+                            </div>
+
+                            <!-- Phone Number Field -->
+                            <div>
+                                <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number (Optional)</label>
+                                <input type="tel" id="phone" name="phone"
+                                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition"
+                                    placeholder="+91 xxxxxxxxxx">
+                            </div>
+
+                            <!-- Other Details/Message Field -->
+                            <div>
+                                <label for="details" class="block text-sm font-medium text-gray-700">Message / Other Details</label>
+                                <textarea id="details" name="details" rows="3" required
+                                    class=" textarea mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition"
+                                    placeholder="Tell us what you need help with..."></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button (Spinner removed as it's no longer needed for instant success) -->
+                        <div class="mt-6">
+                            <button type="submit" id="submit-btn"
+                                class="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-md text-sm font-medium text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition duration-300 ease-in-out">
+                                <span id="submit-text">Submit Inquiry</span>
+                                <!-- Spinner is hidden and no longer necessary but left for structural integrity if you reintroduce loading later -->
+                                <svg id="spinner" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Success Message -->
+                <div id="success-message" class="cw-success absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
+                    <svg class="w-16 h-16 text-primary mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Thank You!</h3>
+                    <p class="text-gray-600">We received your request and will contact you soon via email or phone.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  <!-- Hero Section -->
+
+  <div id="particle-container"></div>
+  <section class="hero-section d-flex align-items-center main-content">
+    <div class="container text-center">
+      <h1 class="fw-bold display-4 heading">
+       <span class="typing"> Empowering TechCareer<br> with VOREXO</span>
+      </h1>
+      <p class="lead mt-3">
+       “Transforming talent into success stories through IT services, consultancy, and career development programs.”<br>&nbsp;&nbsp;
+      <p class="sub"> Your Career, Our Commitment – VOREXO IT Services</p>
+      </p>
+      <div class="mt-4">
+        <a href="#service" class="btn btn-primary btn-lg me-2">Explore Services <i class="fa fa-arrow-right"></i></a>
+        <a href="#courses" class="btn btn-dark btn-lg">Get Started Today</a>
+      </div>
+
+       <!-- Stats Section -->
+  <div class="row text-center mt-5 g-4">
+    <div class="col-md-3">
+      <div class="stat-box">
+        <i class="fa fa-code fa-2x mb-2"></i>
+        <h3 class="counter" data-target="100">0</h3>
+        <p>Projects Delivered</p>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="stat-box">
+        <i class="fa fa-user-graduate fa-2x mb-2"></i>
+        <h3 class="counter" data-target="300">0</h3>
+        <p>Students Trained</p>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="stat-box">
+        <i class="fa fa-briefcase fa-2x mb-2"></i>
+        <h3 class="counter" data-target="150">0</h3>
+        <p>Job Placements</p>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="stat-box">
+        <i class="fa fa-graduation-cap fa-2x mb-2"></i>
+        <h3 class="counter" data-target="30">0</h3>
+        <p>Course Programs</p>
+      </div>
+    </div>
+  </div>
+    </div>
+  </section>
+  <div class="max-w-7xl mx-auto">
+<body>
+   <div class="wrap">
+    <!---services section   -->
+    <!-- Header Section -->
+    <header class="head" id="service">
+        <h1>Our Services</h1>
+        <p>Comprehensive IT solutions tailored to your business needs</p>
+    </header>
+
+    <!-- Services Grid -->
+    <div class="grid">
+
+        <!-- Card Component 1: IT Services -->
+        <div class="item">
+            <img src="PIC/services.jpg" alt="IT Services" class="service-img">
+            <h3>IT Services</h3>
+            <p>Innovative technology solutions, including software development, cloud computing, and cybersecurity.</p>
+        </div>
+
+        <!-- Card Component 2: Job Placements -->
+        <div class="item">
+            <img src="PIC/job.jpg" alt="Job Placements" class="service-img">
+            <h3>Job Placements</h3>
+            <p>Connecting skilled professionals with top companies in IT and Non-IT sectors.</p>
+        </div>
+
+        <!-- Card Component 3: IT & Non-IT Courses -->
+        <div class="item">
+            <img src="PIC/it courses.png" alt="IT & Non-IT Courses" class="service-img">
+            <h3>IT & Non-IT Courses</h3>
+            <p>Industry-driven training programs to enhance career growth and skill development.</p>
+        </div>
+
+        <!-- Card Component 4: Internship and Placement -->
+        <div class="item">
+            <img src="PIC/placements.webp" alt="Internship and Placement" class="service-img">
+            <h3>Internship and Placement</h3>
+            <p>Provides Internship and placement, mentorship , resume building.</p>
+        </div>
+
+        <!-- Card Component 5: HR Consultancy -->
+        <div class="item">
+            <img src="PIC/hr.webp" alt="HR Consultancy" class="service-img">
+            <h3>HR Consultancy</h3>
+            <p>Provides expert advice and specialized services to organizations to improve human resources functions, develop strategies.</p>
+        </div>
+
+        <!-- Card Component 6: Career Guidance & Consulting -->
+        <div class="item">
+            <img src="PIC/career.webp" alt="Career Guidance & Consulting" class="service-img">
+            <h3>Career Guidance & Consulting</h3>
+            <p>Expert mentorship, resume building, and interview preparation for job seekers.</p>
+        </div>
+
+    </div>
+</div>
+
+    <header class="proj-head">
+            <h1>OUR PARTNERS</h1>
+            <p>Proudly partner with 110+ leading companies, driving excellence in IT services, job placements, and training to create endless opportunities.</p>
+        </header>
+     <section class="logo-section">
+    <div class="logo-slider">
+      <div class="logo-track">
+        <!-- Logos -->
+        <img src="PIC/log1.png" alt="Logo 1">
+        <img src="PIC/log2.png" alt="Logo 2">
+        <img src="PIC/log 3.png" alt="Logo 3">
+        <img src="PIC/log 4.png" alt="Logo 4">
+        <img src="PIC/flipcart (1).png" alt="Logo 5">
+        <img src="PIC/lenskart11.png" alt="Logo 6">
+        <img src="PIC/tcs.png" alt="Logo 7">
+
+        <!-- Duplicate logos for seamless infinite scroll -->
+        <img src="PIC/capgemini.png" alt="Logo 1">
+        <img src="PIC/wipro.png" alt="Logo 2">
+        <img src="PIC/accenture.png" alt="Logo 3">
+        <img src="PIC/flipcart (1).png" alt="Logo 4">
+        <img src="PIC/log 3.png" alt="Logo 5">
+        <img src="PIC/log1.png" alt="Logo 6">
+        <img src="PIC/lenskart11.png" alt="Logo 7">
+      </div>
+    </div>
+  </section>
+     <!--Professional courses--->
+        
+    
+    <!-- =================================================================================== -->
+    <!-- MODAL 1: COURSE DETAILS (Dynamically Populated) - Matches pop1.png look -->
+    <!-- =================================================================================== -->
+    <div id="projectModal" class="modal-backdrop" aria-modal="true" role="dialog">
+
+        <div class="modal-content" id="modal1Content">
+
+            <!-- Close Button -->
+            <button id="closeModalBtn" class="close-btn" aria-label="Close">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h2 id="courseTitle" class="h2modal">Course Title Placeholder</h2>
+                <p id="courseDescription">Comprehensive system for managing hospital operations</p>
+            </div>
+            
+            <!-- Modal Body Content -->
+            <div class="modal-body-details-grid">
+
+                <!-- Left Column: Details Card (Overview Section) -->
+                <div class="overview-section">
+                    <h3>Project Overview</h3>
+                    
+                    <div class="detail-row">
+                        <strong>Technology/Stack:</strong> 
+                        <span class="highlight-text" id="courseTech">N/A</span>
+                    </div>
+
+                    <div class="detail-row">
+                        <strong>Category:</strong> 
+                        <span class="highlight-text" id="courseLevel">N/A</span>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <strong>Duration:</strong> 
+                        <span class="highlight-text" id="courseDuration">N/A</span>
+                    </div>
+
+                    <!-- Price Content -->
+                    <div class="price-text">
+                        <span>Price:</span> 
+                        <span id="coursePrice">₹0</span>
+                    </div>
+                </div>
+
+                <!-- Right Column: Course Features -->
+                <div class="features-section">
+                    <h3>Key Modules & Features</h3>
+                    <ul class="features-list" id="courseFeaturesList">
+                        <!-- Dynamic features will be injected here -->
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Purchase Button (Footer) -->
+            <button id="openPurchaseModalBtn" class="purchase-footer-btn" style="margin-top: 3rem;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 mr-3 text-gray-900"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4H6z"/><line x1="3" x2="21" y1="6" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                Enroll & Pay Now - <span id="purchaseBtnPrice">₹0</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- =================================================================================== -->
+    <!-- MODAL 2: PURCHASE CONFIRMATION - Matches pop2.png look -->
+    <!-- =================================================================================== -->
+    <div id="purchaseModal" class="modal-backdrop" aria-modal="true" role="dialog">
+
+        <div class="modal-content" id="modal2Content">
+
+            <!-- Close Button -->
+            <button id="closePurchaseModalBtn" class="close-btn" aria-label="Close">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h2 class="h2modal">Complete Your Enrollment</h2>
+                <p>Choose your preferred payment method to secure your spot in the course.</p>
+            </div>
+
+            <!-- Modal Body: Order Summary and Payment Methods (Two-Column Layout) -->
+            <div class="modal-body-purchase-grid">
+                
+                <!-- 1. Order Summary Card (Money Content) -->
+                <div class="summary-card">
+                    <div>
+                        <h3>Order Summary</h3>
+                        
+                        <div class="order-details-group">
+                            <h4 id="summaryCourseTitle">Course Title Placeholder</h4>
+                            <p id="summaryCourseDesc">Course description placeholder.</p>
+                        </div>
+                    </div>
+
+                    <div class="price-breakdown">
+                        <div class="summary-row">
+                            <span>Subtotal</span>
+                            <span id="summarySubtotal">₹0</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Taxes & Fees</span>
+                            <span id="summaryTax">₹0</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span class="total-label">Total</span>
+                            <span class="total-amount" id="summaryTotal">₹0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Payment Methods Card -->
+                <div class="payment-card">
+                    <div>
+                        <h3>Payment Methods</h3>
+                        <p style="font-size: 0.875rem; color: #9ca3af; margin-bottom: 1.5rem;">Select a payment method to view details.</p>
+
+                        <div class="payment-buttons-container">
+                            <!-- UPI Payment Button -->
+                            <button id="upiBtn" data-method="upi" class="payment-method-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10A10.01 10.01 0 0 0 12 2zM9 13.5v-3a.5.5 0 0 1 1 0v3a.5.5 0 0 1-1 0zm5 0v-3a.5.5 0 0 1 1 0v3a.5.5 0 0 1-1 0z"/><path d="M8 10h8m-4-2.5v5"/></svg>
+                                <span>UPI Payment</span>
+                            </button>
+                            
+                            <!-- Bank Transfer Button -->
+                            <button id="bankBtn" data-method="bank" class="payment-method-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/><path d="M10 16h4"/></svg>
+                                <span>Bank Transfer (NEFT/IMPS)</span>
+                            </button>
+
+                            <!-- Card Payment Button -->
+                            <button id="cardBtn" data-method="card" class="payment-method-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+                                <span>Credit/Debit Card</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Note -->
+            <p style="margin-top: 1.5rem; font-size: 0.75rem; text-align: center; color: #6b7280;">By proceeding, you agree to our Terms and Conditions.</p>
+        </div>
+    </div>
+    
+    <!-- =================================================================================== -->
+    <!-- MODAL 3: PAYMENT METHOD DETAILS POP-UP (New Requirement) -->
+    <!-- This modal appears over Modal 2 -->
+    <!-- =================================================================================== -->
+    <div id="detailsModal" class="modal-backdrop" aria-modal="true" role="dialog" style="z-index: 60;">
+        <div class="modal-content" id="modal3Content">
+            <!-- Close Button -->
+            <button id="closeDetailsModalBtn" class="close-btn" aria-label="Close">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+
+            <!-- Dynamic content will be injected here -->
+            <div id="dynamicPaymentDetailsContent">
+                <!-- Content will be injected by JS from handlePaymentMethodClick -->
+                <p style="text-align: center; color: #9ca3af;">Loading payment details...</p>
+            </div>
+            
+            <button onclick="closeDetailsModal()" class="purchase-footer-btn" style="margin-top: 1.5rem; background: #9333ea; color: #fff; box-shadow: none; width: 100%; font-size: 1rem; display: flex; align-items: center; justify-content: center;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem; color: #fff;"><path d="m15 18-6-6 6-6"/></svg>
+                Back to Payment Selection
+            </button>
+        </div>
+    </div>
+     
+    <!-- =================================================================================== -->
+    <!-- MODAL 4: CONTACT US POP-UP (New Requirement - Appears over Modal 3) -->
+    <!-- =================================================================================== -->
+
+    <div id="contactModal" class="modal-backdrop" aria-modal="true" role="dialog" style="z-index: 70;">
+        <div class="modal-content" id="modal4Content" style="max-width: 400px; background-color: #111827; padding: 2.5rem;">
+            <!-- Close Button -->
+            <button id="closeContactModalBtn" class="close-btn" aria-label="Close">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+
+            <div style="text-align: center; padding: 1rem;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 1rem;"><path d="M17 18a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2"/><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="12" cy="10" r="3"/></svg>
+                <h4 style="font-size: 1.8rem; font-weight: 800; color: #fff; margin-bottom: 0.5rem;">Contact Support</h4>
+                <p style="color: #9ca3af; margin-bottom: 2rem;">We're here to help with your payment or enrollment queries.</p>
+                
+                <div style="text-align: left; background-color: #1f2937; padding: 1.5rem; border-radius: 0.75rem; border: 1px solid #374151; margin-bottom: 1.5rem;">
+                    <p style="margin-bottom: 1rem; color: #e5e7eb; font-weight: 600;">Reach out via:</p>
+                    <div style="display: flex; align-items: center; margin-bottom: 0.75rem; color: #fff;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.75rem;"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                        <span style="font-weight: 400;">contact@vorexos.com</span>
+                    </div>
+                    <div style="display: flex; align-items: center; color: #fff;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.75rem;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                        <span style="font-weight: 400;">+91 77758 43729</span>
+                    </div>
+                </div>
+                
+                <button onclick="closeContactModal()" class="purchase-footer-btn" style="margin-top: 1rem; background: #6366f1; color: #fff; box-shadow: none; width: 100%; font-size: 1rem; display: flex; align-items: center; justify-content: center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem; color: #fff;"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+                    Go Back to Payment
+                </button>
+            </div>
+        </div>
+  </div>
+    <div class="course-wrap" id="courses">
+        
+        <!-- Header Section -->
+        <header class="course-head">
+            <h1>Professional Courses</h1>
+            <p>Industry-leading training programs to accelerate your tech career</p>
+        </header>
+
+        <!-- Navigation/Filter Buttons -->
+        <nav class="course-nav">
+            <button class="course-btn course-active">All</button>
+            <button class="course-btn">Beginner</button>
+            <button class="course-btn">Intermediate</button>
+            <button class="course-btn">Advanced</button>
+        </nav>
+
+        <!-- Courses Grid -->
+        <div class="course-grid">
+
+            <!-- Course Card 1 -->
+            <div class="course-item"  data-id="1" data-title="Full Stack Web Development" data-desc="Master modern web development with React, Node.js, and databases." data-duration="6 Months" data-level="Advanced" data-price="40000" data-features='["Comprehensive MERN stack mastery.","10+ industry-standard projects.","Dedicated career support and placement.","Advanced system design principles."]' data-tech="React, Node.js, MongoDB">
+                <div class="course-meta">
+                    <span class="course-tag course-advanced">Advanced</span>
+                    <span class="course-duration">
+                        <svg class="course-clock-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg> 6 Months
+                    </span>
+                </div>
+                <h3>Full Stack Web Development</h3>
+                <p>Master modern web development with React, Node.js, and databases.</p>
+                <button class="course-enroll-btn" id="enrollBtn">Enroll Now</button>
+            </div>
+
+            <!-- Course Card 2 -->
+            <div class="course-item" data-id="2" data-title="MERN Stack Developer" data-desc="Building Scalable Web Applications with MongoDB, Express.js, React, and Node.js" data-duration="6 Months" data-level="Intermediate" data-price="30000" data-features='["Deep dive into **React Hooks** and Context.","Express API development and security.","Database indexing and performance tuning.","Final capstone project implementation."]' data-tech="MongoDB, Express.js, React, Node.js">
+                <div class="course-meta">
+                    <span class="course-tag course-intermediate">Intermediate</span>
+                    <span class="course-duration">
+                        <svg class="course-clock-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg> 6 Months
+                    </span>
+                </div>
+                <h3>Mern Stack Developer</h3>
+                <p>Building Scalable Web Applications with MongoDB, Express.js, React, and Node.js</p>
+                <button class="course-enroll-btn" id="enrollBtn">Enroll Now</button>
+            </div>
+
+            <!-- Course Card 3 -->
+            <div class="course-item" data-id="3" data-title="Salesforce & Development" data-desc="CRM Optimization & Application Development on the Salesforce Platform." data-duration="3-6 Months" data-level="Beginner" data-price="30000" data-features='["Salesforce Admin and Developer tracks.","**Apex programming** fundamentals.","Lightning Web Components (LWC) mastery.","Real-world integration scenarios."]' data-tech="Salesforce, Apex, LWC">
+                <div class="course-meta">
+                    <span class="course-tag course-beginner">Beginner</span>
+                    <span class="course-duration">
+                        <svg class="course-clock-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg> 3-6 Months
+                    </span>
+                </div>
+                <h3>Salesforce & Development</h3>
+                <p>CRM Optimization & Application Development.</p>
+                <button class="course-enroll-btn">Enroll Now</button>
+            </div>
+            
+            <!-- Course Card 4 -->
+            <div class="course-item" data-id="4" data-title="Programming Languages Fundamentals" data-desc="Mastering C, C++, Java, Python, Embedded C, and Assembly Languages." data-duration="1-6 Months" data-level="Intermediate" data-price="5000" data-features='["**Data structures** and algorithms in C/C++.","Object-Oriented Programming (OOP) in Java.","Scripting and data analysis with Python.","Low-level programming and hardware interaction."]' data-tech="C, C++, Java, Python">
+                <div class="course-meta">
+                    <span class="course-tag course-intermediate">Intermediate</span>
+                    <span class="course-duration">
+                        <svg class="course-clock-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg> 1-6 Months
+                    </span>
+                </div>
+                <h3>Programming Languages</h3>
+                <p>C, C++, Java, Python, Embedded C, Assembly Languages</p>
+                <button class="course-enroll-btn">Enroll Now</button>
+            </div>
+
+            <!-- Course Card 5 -->
+            <div class="course-item" data-id="5" data-title="Business Analyst Certification" data-desc="Data-Driven Business Insights & Optimization." data-duration="45-90 Days" data-level="Intermediate" data-price="25000" data-features='["Requirement Elicitation and documentation.","**UML diagrams** and process modeling.","Stakeholder management and communication.","Agile methodologies and Scrum."]' data-tech="UML, Agile, SQL, Excel">
+                <div class="course-meta">
+                    <span class="course-tag course-intermediate">Intermediate</span>
+                    <span class="course-duration">
+                        <svg class="course-clock-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg> 45-90 Days
+                    </span>
+                </div>
+                <h3>Business Analyst </h3>
+                <p>Data-Driven Business Insights & Optimization.</p>
+                <button class="course-enroll-btn">Enroll Now</button>
+            </div>
+
+            <!-- Course Card 6 -->
+            <div class="course-item" data-id="6" data-title="Data Analytics Mastery" data-desc="Learn to collect, analyze, visualize, and interpret data to make informed decisions and solve real-world problems." data-duration="6 Months" data-level="Advanced" data-price="40000" data-features='["Advanced **SQL** and database querying.","Statistical analysis with Python (Pandas, NumPy).","Data Visualization using Power BI / Tableau.","Predictive modeling and machine learning basics."]' data-tech="Python, SQL, Power BI">
+                <div class="course-meta">
+                    <span class="course-tag course-advanced">Advanced</span>
+                    <span class="course-duration">
+                        <svg class="course-clock-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg> 6 Months
+                    </span>
+                </div>
+                <h3>Data Analytics</h3>
+                <p>Learn to collect, analyze, visualize, and interpret data to make informed decisions and solve real-world problems.</p>
+                <button class="course-enroll-btn">Enroll Now</button>
+            </div>
+
+        </div>
+    </div>
+     
+  <!----final year project-->
+
+   <div class="proj-wrap" id="final_courses">
+        
+        <!-- Header Section -->
+        <header class="proj-head">
+            <h1>Final Year Projects</h1>
+            <p>Showcasing successful solutions delivered to clients worldwide</p>
+        </header>
+
+        <!-- Projects Grid -->
+        <div class="proj-grid">
+
+            <!-- Project Card 1: Enterprise Cloud Migration -->
+            <div class="proj-item">
+                <h3>Real-Time Fraud Detection System</h3>
+                <p class="proj-client">IT</p>
+                <p class="proj-desc">Implemented a scalable machine learning model for detecting fraudulent transactions in real time.</p>
+                <div class="proj-techs">
+                    <span class="proj-badge">Java </span>
+                    <span class="proj-badge">Apache Kafka</span>
+                    <span class="proj-badge">Spark</span>
+                    <span class="proj-badge">MongoDB</span>
+                </div>
+            </div>
+
+            <!-- Project Card 2: E-Commerce Platform -->
+            <div class="proj-item">
+                <h3>AI-Powered Customer Support Platform</h3>
+                <p class="proj-client">IT</p>
+                <p class="proj-desc">Developed an AI-driven chatbot system integrated with CRM.</p>
+                <div class="proj-techs">
+                    <span class="proj-badge">React</span>
+                    <span class="proj-badge">Python</span>
+                    <span class="proj-badge">TensorFlow</span>
+                    <span class="proj-badge">Node.js</span>
+                    
+                </div>
+            </div>
+
+            <!-- Project Card 3: AI-Powered Analytics -->
+            <div class="proj-item">
+                <h3>Scalable E-Commerce Platform</h3>
+                <p class="proj-client">IT</p>
+                <p class="proj-desc">A Responsive and Dynamic E-commerce Platfrom for Your Store. </p>
+                <div class="proj-techs">
+                    <span class="proj-badge">React Js</span>
+                    <span class="proj-badge">CSS,HTML</span>
+                    <span class="proj-badge">Node.Js</span>
+                </div>
+            </div>
+            
+            <!-- Project Card 4: Mobile Banking App -->
+            <div class="proj-item">
+                <h3>Smart Home Automation System</h3>
+                <p class="proj-client">IoT</p>
+                <p class="proj-desc">Developed an IoT-based home automation platform for controlling appliances remotely.</p>
+                <div class="proj-techs">
+                    <span class="proj-badge">Arduino</span>
+                    <span class="proj-badge">Raspberry Pi</span>
+                    <span class="proj-badge">Node-RED</span>
+                    <span class="proj-badge">AWS IoT Core</span>
+                </div>
+            </div>
+
+            <!-- Project Card 5: Healthcare Management System -->
+            <div class="proj-item">
+                <h3>Smart Agriculture Monitoring System</h3>
+                <p class="proj-client">IoT</p>
+                <p class="proj-desc">Built an IoT-enabled platform with soil,and humidity sensors to optimize irrigation and crop yield..</p>
+                <div class="proj-techs">
+                    <span class="proj-badge">Raspberry Pi</span>
+                    <span class="proj-badge">Arduino</span>
+                    <span class="proj-badge">LoRaWAN</span>
+                    <span class="proj-badge">Mobile App (Flutter)</span>
+                </div>
+            </div>
+
+            <!-- Project Card 6: Supply Chain Optimization -->
+            <div class="proj-item">
+                <h3>Customize Your Project</h3>
+                <p class="proj-client">Any Field</p>
+                <p class="proj-desc">Tell us about your project , what are your requirement..<br> Project templates can be adapted to match your skills and goals. You can customize the technologies.</p>
+                <div class="proj-techs">
+                     <button class="course-enroll-btn" onclick="window.location.href='project_optimize.html'">Optimize Your Project</button>
+                     
+                </div>
+            </div>
+
+        </div>
+    </div>
+     <!---career oppornuties-->
+      <div class="career-wrap" id="career_opportunities">
+        
+        <!-- Header Section -->
+        <header class="career-head">
+            <h1>Career Opportunities</h1>
+            <p>Find your next role with leading tech companies worldwide</p>
+        </header>
+          <div class="career-scroll-container">
+        <!-- Career Opportunities Grid -->
+        <div class="career-grid">
+
+            <!-- Job Card 1: Senior UI/UX Designer (Amazon) -->
+            <div class="career-item">
+                <div class="career-meta">
+                    <span class="career-date">29 SEPT, 2025</span>
+                    <i class="fas fa-bookmark career-save"></i>
+                </div>
+                
+                <div class="career-company-info">
+                    <div class="career-logo">
+                           <img src="PIC/logo2.png" alt="VOREXO Logo" class="company-logo-img">
+                    </div>
+                    <p class="career-company">VOREXO</p>
+                    <h3 class="career-title">Software Developer</h3>
+                </div>
+
+                <div class="career-tags">
+                    <span class="career-tag">Full time</span>
+                    <span class="career-tag">Fresher/Experienced</span>
+                    <span class="career-tag">Distant</span>
+                    <span class="career-tag">Project work</span>
+                </div>
+
+                <div class="career-details">
+                    <p class="career-salary"> 2.5LPA - 5LPA</p>
+                    <p class="career-location">AMRAVATI,MAHARASHTRA</p>
+                </div>
+                <button class="career-btn" onclick="window.location.href='jobapply.html'">Apply Now
+               </button>
+            </div>
+
+             <!-- Job Card 2: Graphic Designer (Airbnb) -->
+            <div class="career-item">
+                <div class="career-meta">
+                    <span class="career-date">25 SEPT, 2025</span>
+                    <i class="fas fa-bookmark career-save"></i>
+                </div>
+                
+                <div class="career-company-info">
+                   <div class="career-logo">
+                           <img src="PIC/lenskart1.jpg" alt="VOREXO Logo" class="company-logo-img">
+                    </div>
+                    <p class="career-company">LENSKART</p>
+                    <h3 class="career-title">Operation Specialist</h3>
+                </div>
+
+                <div class="career-tags">
+                    <span class="career-tag">Full Time</span>
+                    <span class="career-tag">Fresher/Experienced</span>
+                </div>
+
+                <div class="career-details">
+                    <p class="career-salary">3LPA - 4.5LPA</p>
+                    <p class="career-location">AMRAVATI, MAHARASHTRA</p>
+                </div>
+                <button class="career-btn" onclick="window.location.href='jobapply.html'">Apply Now
+               </button>
+            </div>
+            
+            <!-- Job Card 3: Junior UI/UX Designer (Google) -->
+            <div class="career-item">
+                <div class="career-meta">
+                    <span class="career-date">1 OCT, 2025</span>
+                    <i class="fas fa-bookmark career-save"></i>
+                </div>
+                
+                <div class="career-company-info">
+                  <div class="career-logo">
+                           <img src="PIC/logo2.png" alt="VOREXO Logo" class="company-logo-img">
+                    </div>
+                    <p class="career-company">VOREXO</p>
+                    <h3 class="career-title">HRBP</h3>
+                </div>
+
+                <div class="career-tags">
+                    <span class="career-tag">Full time</span>
+                    <span class="career-tag">Experienced</span>
+                    <span class="career-tag">Distant</span>
+                  
+                    <span class="career-tag">Flexible Schedule</span>
+                </div>
+
+                <div class="career-details">
+                    <p class="career-salary">1.8LPA - 2.5LPA </p>
+                    <p class="career-location">AMRAVATI</p>
+                </div>
+               <button class="career-btn" onclick="window.location.href='jobapply.html'">Apply Now
+               </button>
+            </div>
+
+            
+            <!-- Job Card 4: Graphic Designer (Apple) -->
+            <div class="career-item">
+                <div class="career-meta">
+                    <span class="career-date">18 Jan, 2023</span>
+                    <i class="fas fa-bookmark career-save"></i>
+                </div>
+                
+                <div class="career-company-info">
+                   <div class="career-logo">
+                           <img src="PIC/infosys.png" alt="VOREXO Logo" class="company-logo-img">
+                    </div>
+                    <p class="career-company">INFOSYS</p>
+                    <h3 class="career-title">Customer Relationship Executive</h3>
+                </div>
+
+                <div class="career-tags">
+                    <span class="career-tag">Full Time</span>
+                    <span class="career-tag">Experienced</span>
+                </div>
+
+                <div class="career-details">
+                    <p class="career-salary">3.6LPA - 5LPA</p>
+                    <p class="career-location">NAGPUR,MAHARASHTRA</p>
+                </div>
+               <button class="career-btn" onclick="window.location.href='jobapply.html'">Apply Now
+               </button>
+            </div>
+
+
+            <!-- Job Card 5: Senior Motion Designer (Dribbble) -->
+            <div class="career-item">
+                <div class="career-meta">
+                    <span class="career-date">1 OCT , 2025</span>
+                    <i class="fas fa-bookmark career-save"></i>
+                </div>
+                
+                <div class="career-company-info">
+                    <div class="career-logo">
+                           <img src="PIC/logo2.png" alt="VOREXO Logo" class="company-logo-img">
+                    </div>
+                    <p class="career-company">VOREXO</p>
+                    <h3 class="career-title">IT Consultant(Sales)</h3>
+                </div>
+
+                <div class="career-tags">
+                    <span class="career-tag">Full Time</span>
+                    <span class="career-tag">Experienced</span>
+                    <span class="career-tag">Full Day</span>
+                   
+                </div>
+
+                <div class="career-details">
+                    <p class="career-salary">3LPA</p>
+                    <p class="career-location">AMRAVATI,MAHARASHTRA</p>
+                </div>
+               <button class="career-btn" onclick="window.location.href='jobapply.html'">Apply Now
+               </button>
+            </div>
+            
+            <!-- Job Card 6: UX Designer (Twitter/X) -->
+            <div class="career-item">
+                <div class="career-meta">
+                    <span class="career-date">2 OCT, 2025</span>
+                    <i class="fas fa-bookmark career-save"></i>
+                </div>
+                
+                <div class="career-company-info">
+                   <div class="career-logo">
+                           <img src="PIC/logo2.png" alt="VOREXO Logo" class="company-logo-img">
+                    </div>
+                    <p class="career-company">VOREXO</p>
+                    <h3 class="career-title">HR Recruiter</h3>
+                </div>
+
+                <div class="career-tags">
+                    <span class="career-tag">Full time</span>
+                    <span class="career-tag">Fresher/Experienced</span>
+                    <span class="career-tag">Distant</span>
+                
+                </div>
+
+                <div class="career-details">
+                    <p class="career-salary">1.8LPA - 2.5LPA</p>
+                    <p class="career-location">AMRAVATI,MAHARASHTRA</p>
+                </div>
+                <button class="career-btn" onclick="window.location.href='jobapply.html'">Apply Now
+               </button>
+            </div>
+        </div>
+    </div>
+
+
+<div class="testimonial-section-container" id="testimonial">
+    <header class="testimonial-header">
+        <h1>Our Testimonials</h1>
+        <h2>What our clients say....Build teams with VOREXO</h2>
+        <a href="#" class="case-studies-btn">View all  →</a>
+    </header>
+
+    <div class="testimonial-cards-grid">
+        
+        <div class="testimonial-card dark-card">
+            <div class="card-content">
+                <p class="quote-icon">“</p>
+                <p class="company-logo">TechNova Solutions</p>
+                <p class="review-text">Vorexo IT Services and Consultancy has been a game-changer for our business.Their team is highly professional, and committed to delivering excellence.</p>
+                <a href="#" class="read-review">Read full review →</a>
+            </div>
+            <div class="reviewer-info">
+                <img src="PIC/profile2.png" alt="Claire Armstrong" class="reviewer-avatar">
+                <div>
+                    <p class="reviewer-name">Rahul Sharma</p>
+                    <p class="reviewer-title">CTO (Chief Technology Officer)</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="testimonial-card dark-card">
+            <div class="card-content">
+                <p class="quote-icon">“</p>
+                <p class="company-logo">VOREXO</p>
+                <p class="review-text">Vorexo IT Services and Consultancy played a crucial role in shaping my career. Their interview preparation, and industry connections helped me land my dream job as a Software Developer.</p>
+                <a href="#" class="read-review">Read full review →</a>
+            </div>
+            <div class="reviewer-info">
+                <img src="PIC/profile.png" alt="Nicholas Threapleton" class="reviewer-avatar">
+                <div>
+                    <p class="reviewer-name">Rohit Khandelwal</p>
+                    <p class="reviewer-title">Software Developer</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="testimonial-card dark-card">
+            <div class="card-content">
+                <p class="quote-icon">“</p>
+                <p class="company-logo">VOREXO</p>
+                <p class="review-text">Vorexo’s Data Analytics course provided me with the skills and industry insights needed to break into the field.</p>
+                <a href="#" class="read-review">Read full review →</a>
+            </div>
+            <div class="reviewer-info">
+                <img src="PIC/profile3.png" alt="Tomi Keoh" class="reviewer-avatar">
+                <div>
+                    <p class="reviewer-name">Sameer Deshmkuh</p>
+                    <p class="reviewer-title"> Data Analyst</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</div>
+
+
+<footer class="main-footer">
+    <div class="footer-top">
+        <div class="footer-column footer-brand">
+            <div class="footer-logo">
+                <span class="logo-icon"><img src="PIC/Logo.png"></img></span>
+                <span class="logo-text">VOREXO</span>
+            </div>
+            <p class="footer-description">
+                Empowering tech careers through innovative training, consulting, and placement services.
+            </p>
+            <div class="newsletter-signup">
+                <input type="email" placeholder="Enter your email" class="newsletter-input">
+                <button class="newsletter-button">Subscribe</button>
+            </div>
+        </div>
+
+        <div class="footer-column">
+            <h3>Company</h3>
+            <ul>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Careers</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h3>Services</h3>
+            <ul>
+                <li><a href="#">IT Services</a></li>
+                <li><a href="#">Job Placements</a></li>
+                <li><a href="#">IT & Non-IT Courses</a></li>
+                <li><a href="#">Internship and Placement</a></li>
+                <li><a href="#">HR Consultancy</a></li>
+                <li><a href="#">Career Guidance & Consulting</a></li>
+              
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h3>Resources</h3>
+            <ul>
+                <li><a href="#">Courses</a></li>
+                <li><a href="#">Projects</a></li>
+                <li><a href="#">Testimonials</a></li>
+                <li><a href="#">Job Board</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p class="copyright">© 2023 VOREXO. All rights reserved.</p>
+
+         <div class="social-links">
+        <a href="https://www.instagram.com/vorexo_?igsh=a21hc3FtZzhqeXg3" target="_blank" aria-label="Instagram"><i class="fab fa-instagram insta" ></i></a>
+        
+        <a href="https://www.facebook.com/vorexo/" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        
+        <a href="https://www.linkedin.com/company/vorexo" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+    </div>
+       
+        <div class="footer-links-bottom">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Cookie Policy</a>
+        </div>
+    </div>
+</footer>
+
+
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Custom JS -->
+  <script src="landing.js"></script>
+</body>
+</html>

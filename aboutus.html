@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - The Creative Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-dark': '#1e3a8a', // Deep Blue-900
+                        'accent-orange': '#f97316', // Orange-500
+                        'accent-teal': '#14b8a6', // Teal-500
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                        'card-pop': 'cardPop 0.3s ease-in-out',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        cardPop: {
+                            '0%, 100%': { transform: 'scale(1)' },
+                            '50%': { transform: 'scale(1.03)', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Base font for clarity */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* Slate-50 background */
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+        }
+        
+        /* Style for our "Dynamic" cards on hover */
+        .value-card {
+            transition: all 0.3s ease-in-out;
+        }
+        .value-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(30, 58, 138, 0.15); /* Primary-dark subtle shadow */
+        }
+
+        /* Utility class for delayed animation (simulating scroll reveal) */
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        
+        /* Ensure responsive image for team member */
+        .team-img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1 / 1 ; /* Keep images square */
+            object-fit: fit;
+        }
+
+        /* --- Updated Navbar Styles --- */
+        .header-sticky {
+            background-color: #000000 !important; /* Black background */
+            box-shadow: 0 2px 4px 0 rgba(255, 255, 255, 0.1);
+            transition: background-color 0.3s;
+        }
+        
+        /* Custom Nav Link Hover Effect */
+        .nav-link-hover {
+            transition: all 0.2s ease-in-out;
+            border-radius: 9999px; 
+            padding-left: 1rem; 
+            padding-right: 1rem;
+        }
+
+        .nav-link-hover:hover {
+            background-color: #ffffff !important; /* White background on hover */
+            color: #000000 !important; /* Black text on hover */
+            transform: translateY(-2px); /* Subtle lift up */
+            box-shadow: 0 4px 10px rgba(255, 255, 255, 0.3); /* White shadow on hover for dark background */
+        }
+
+        /* Active/Current Link Style on Black Background */
+        .nav-link-active {
+            color: #f97316 !important; /* Accent-orange for active link */
+            font-weight: 600; /* Semibold */
+        }
+
+        /* Style for the logo image */
+        .navbar-logo {
+        
+            height: 80px; /* Adjust as needed */
+            width: auto;
+            margin-left: 30px;
+        }
+
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <header class="header-sticky sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-0 sm:px-0 lg:px-0 py-0 flex justify-between items-center">
+            
+            <a href="#" class="flex items-center space-x-2">
+                <img src="PIC/Logo.png" alt="Vorexo logo" class="navbar-logo"> 
+            </a>
+
+            <nav class="hidden md:flex flex-grow justify-center">
+                <a href="landing.html#service" class="nav-link-hover text-white hover:text-black transition duration-200 px-4 py-2">Services</a>
+                <a href="portfolio.html" class="nav-link-hover text-white hover:text-black transition duration-200 px-4 py-2">Portfolio</a>
+                <a href="landing.html#courses" class="nav-link-hover text-white hover:text-black transition duration-200 px-4 py-2">Courses</a>
+                
+                <a href="landing.html#testimonial" class="nav-link-hover text-white hover:text-black transition duration-200 px-4 py-2">Testimonials</a>
+                <a href="landing.html#career_opportunities" class="nav-link-hover text-white hover:text-black transition duration-200 px-4 py-2">Jobs</a>
+                <a href="" class="nav-link-hover text-white hover:text-black transition duration-200 px-4 py-2">Contact</a>
+            </nav>
+            
+            <div class="md:w-auto">
+                <button class="md:hidden text-white hover:text-accent-orange">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+                <div class="hidden md:block w-20"></div> 
+            </div>
+        </div>
+    </header>
+
+    <main>
+        
+        
+        <section class="py-16 sm:py-24 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="lg:grid lg:grid-cols-2 lg:gap-12 items-center">
+                    <div class="mb-10 lg:mb-0 opacity-0 animate-fade-in-up delay-1">
+                        <img src="PIC/company.webp" alt="Team collaborating around a bright monitor" class="rounded-xl shadow-2xl transform hover:scale-[1.01] transition duration-500">
+                    </div>
+                    <div class="opacity-0 animate-fade-in-up delay-2">
+                        <h2 class="text-3xl sm:text-4xl font-bold text-primary-dark mb-4 border-l-4 border-accent-orange pl-4">VOREXO: IT Services And Consultancy</h2>
+                        <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+                            At Vorexo IT Services and Consultancy,
+                            we are committed to providing top-notch
+                            IT services, seamless job placements,
+                            and comprehensive IT & Non-IT courses
+                            to help individuals and businesses thrive
+                            in today’s digital worl
+                        </p>
+                        <p class="text-lg text-gray-600 leading-relaxed">
+                            Our goal is to empower businesses with
+                            innovative technology solutions while equipping
+                            individuals with the skills and opportunities
+                            needed for a successful career. With a strong
+                            industry network, expert guidance, and a
+                            commitment to excellence, we bridge the gap
+                            between talent and opportunity, ensuring
+                            growth, success, and a brighter future for our
+                            clients and candidates alike.
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="py-16 sm:py-24 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl sm:text-4xl font-bold text-primary-dark mb-4">Our Latest Projects</h2>
+                <p class="text-xl text-gray-600 mb-12">A glimpse into the diverse, high-impact work we deliver.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="group value-card bg-gray-100 rounded-xl shadow-lg overflow-hidden border-t-4 border-primary-dark animate-fade-in-up delay-1">
+                        <img src="PIC/smarthome.jpg" alt="Project Mockup A" class="w-full h-48 object-fit">
+                        <div class="p-6 text-left">
+                            <h3 class="text-xl font-bold text-primary-dark mb-1">Smart Home Automation System</h3>
+                            <p class="text-sm text-accent-teal font-medium mb-3">IoT</p>
+                            <p class="text-gray-600 text-sm">Developed an IoT-based home automation platform for controlling appliances remotely.</p>
+                        </div>
+                    </div>
+
+                    <div class="group value-card bg-gray-100 rounded-xl shadow-lg overflow-hidden border-t-4 border-accent-orange animate-fade-in-up delay-2">
+                        <img src="PIC/fraud-detection.jpg" alt="Project Mockup B" class="w-full h-48 object-fit">
+                        <div class="p-6 text-left">
+                            <h3 class="text-xl font-bold text-primary-dark mb-1">Real-Time Fraud Detection System</h3>
+                            <p class="text-sm text-accent-orange font-medium mb-3">IT</p>
+                            <p class="text-gray-600 text-sm">Implemented a scalable machine learning model for detecting fraudulent transactions in real time.</p>
+                        </div>
+                    </div>
+
+                    <div class="group value-card bg-gray-100 rounded-xl shadow-lg overflow-hidden border-t-4 border-accent-teal animate-fade-in-up delay-3">
+                        <img src="PIC/ecommerce.png" alt="Project Mockup C" class="w-full h-48 object-fit">
+                        <div class="p-6 text-left">
+                            <h3 class="text-xl font-bold text-primary-dark mb-1">Scalable E-Commerce Platform</h3>
+                            <p class="text-sm text-primary-dark font-medium mb-3">IT</p>
+                            <p class="text-gray-600 text-sm">A Responsive and Dynamic E-commerce Platfrom for Your Store.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <a href="portfolio.html" class="mt-12 inline-block text-lg font-semibold text-accent-teal hover:text-primary-dark transition duration-300 border-b-2 border-accent-teal hover:border-primary-dark">
+                    Explore Our Full Portfolio &rarr;
+                </a>
+            </div>
+        </section>
+
+
+        <section class="py-16 sm:py-24 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl sm:text-4xl font-bold text-primary-dark mb-4">Our Mission and Vision</h2>
+                <p class="text-xl text-gray-600 mb-12">The pillars that define every line of code we write and every decision we make.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    
+                    <div class="value-card bg-white p-8 rounded-xl shadow-lg border-t-4 border-accent-orange flex flex-col items-center animate-fade-in-up delay-1">
+                        <div class="text-5xl text-accent-orange mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 21h.01M21 12c0-4.667-4.18-8.46-9.337-8.995L12 3a9 9 0 000 18h0L9.663 17zM12 20.999V17"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-primary-dark mb-3">Innovation</h3>
+                        <p class="text-gray-600">We constantly explore new frameworks, design paradigms, and technologies to ensure our solutions are future-proof and competitive.</p>
+                    </div>
+
+                    <div class="value-card bg-white p-8 rounded-xl shadow-lg border-t-4 border-accent-teal flex flex-col items-center animate-fade-in-up delay-2">
+                        <div class="text-5xl text-accent-teal mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-primary-dark mb-3">Mission</h3>
+                        <p class="text-gray-600">To become a trusted leader in IT services, skill
+development, and career growth, empowering
+individuals and businesses to thrive in the
+digital age</p>
+                    </div>
+
+                    <div class="value-card bg-white p-8 rounded-xl shadow-lg border-t-4 border-primary-dark flex flex-col items-center animate-fade-in-up delay-3">
+                        <div class="text-5xl text-primary-dark mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-primary-dark mb-3">Vision</h3>
+                        <p class="text-gray-600">To provide innovative IT solutions, practical
+training, and career opportunities that help
+individuals and businesses achieve success.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-16 sm:py-24 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                    
+                    <div class="bg-primary-dark text-white p-8 rounded-xl shadow-2xl animate-fade-in-up delay-1">
+                        <h3 class="text-2xl font-bold mb-4 border-l-4 border-accent-orange pl-4">Client Testimonial</h3>
+                        <p class="italic mb-6">"At  Vorexo IT Services and Consultancy, we
+specialize in providing cutting-edge IT solutions,
+job placement services, and industry-focused
+training programs in both IT and Non-IT fields."</p>
+                        <p class="font-semibold text-accent-orange">- Akshay Pardhi , Founder and  CEO</p>
+                        <a href="#" class="mt-4 inline-block text-sm font-medium text-accent-teal hover:text-white transition duration-200">Read More Success Stories &rarr;</a>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-8 rounded-xl shadow-lg animate-fade-in-up delay-2">
+                        <h3 class="text-2xl font-bold text-primary-dark mb-4 border-l-4 border-accent-teal pl-4">Digital Courses</h3>
+                        <p class="text-gray-600 mb-6">Learn the latest in web development and design directly from our industry-leading team. Structured for beginners and advanced professionals.</p>
+                        <ul class="list-disc list-inside text-gray-600 mb-6 space-y-1">
+                            <li>Advanced Tailwind UI/UX</li>
+                            <li>Full-Stack React Masterclass</li>
+                            <li>Data Analytics</li>
+                        </ul>
+                        <a href="landing.html#courses" class="inline-block bg-accent-teal hover:bg-teal-600 text-white font-bold py-2 px-6 rounded-full transition duration-300">Enroll Today</a>
+                    </div>
+
+                    <div class="bg-gray-50 p-8 rounded-xl shadow-lg animate-fade-in-up delay-3">
+                        <h3 class="text-2xl font-bold text-primary-dark mb-4 border-l-4 border-primary-dark pl-4">Join Our Team (Jobs)</h3>
+                        <p class="text-gray-600 mb-6">We're always looking for passionate, impact-driven individuals to join our remote-first global team.</p>
+                        <p class="text-sm font-semibold text-accent-orange mb-3">Current Openings:</p>
+                        <ul class="list-disc list-inside text-gray-600 mb-6 space-y-1">
+                            <li>Software Developer</li>
+                            <li>Customer Relationship Executive</li>
+                            <li>HR Recruiter</li>
+                        </ul>
+                        <a href="landing.html#career_opportunities" class="inline-block bg-accent-orange hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-full transition duration-300">View All Jobs</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="py-16 sm:py-24 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl sm:text-4xl font-bold text-primary-dark mb-4">Meet the Visionaries</h2>
+                <p class="text-xl text-gray-600 mb-12">The dedicated team making the magic happen.</p>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                    <div class="team-card bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition duration-300 animate-fade-in-up delay-1">
+                        <img src="https://placehold.co/300x300/f97316/ffffff?text=A.J." alt="Team Member Anthony" class="team-img rounded-full mx-auto mb-4 border-4 border-accent-orange">
+                        <h3 class="text-xl font-bold text-primary-dark">Akshay Pardhi </h3>
+                        <p class="text-accent-orange font-medium">Founder & CEO</p>
+                        <p class="text-sm text-gray-500 mt-2">Visionary leadership driving company excellence.</p>
+                    </div>
+
+                    <div class="team-card bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition duration-300 animate-fade-in-up delay-2">
+                        <img src="PIC/mukhtar khan.jpg" alt="Team Member Chloe" class="team-img rounded-full mx-auto mb-4 border-4 border-accent-teal">
+                        <h3 class="text-xl font-bold text-primary-dark">Mukhtar Khan</h3>
+                        <p class="text-accent-teal font-medium">Co-founder and Managing Director</p>
+                        <p class="text-sm text-gray-500 mt-2">Leading strategic growth and innovation.</p>
+                    </div>
+
+                    <div class="team-card bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition duration-300 animate-fade-in-up delay-3">
+                        <img src="PIC/khushbo kumari.jpg" alt="Team Member Marcus" class="team-img rounded-full mx-auto mb-4 border-4 border-primary-dark">
+                        <h3 class="text-xl font-bold text-primary-dark">Khushbo Kumari </h3>
+                        <p class="text-primary-dark font-medium">HR Manager</p>
+                        <p class="text-sm text-gray-500 mt-2">Empowering teams through talent and trust</p>
+                    </div>
+
+                    <div class="team-card bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition duration-300 animate-fade-in-up delay-4">
+                        <img src="PIC/Atharva pundkar.jpg" alt="Team Member Emily" class="team-img rounded-full mx-auto mb-4 border-4 border-gray-400">
+                        <h3 class="text-xl font-bold text-primary-dark">Atharva Pundkar</h3>
+                        <p class="text-gray-500 font-medium">Software Developer</p>
+                        <p class="text-sm text-gray-500 mt-2">Building scalable systems with precision and innovation.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="bg-primary-dark py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
+                <h2 class="text-3xl font-bold mb-4">Ready to elevate your digital presence?</h2>
+                <p class="text-lg mb-8">Let's start the conversation about your next big project.</p>
+                <a href="landing.html#contactModal" class="inline-block bg-accent-orange hover:bg-orange-600 text-white font-bold py-3 px-10 rounded-full shadow-xl transition duration-300 transform hover:scale-105">
+                    Contact Our Team
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm">
+            &copy;  © 2023 VOREXO All rights reserved. | <a href="#" class="hover:text-accent-teal transition duration-200">Privacy Policy</a>
+        </div>
+    </footer>
+
+</body>
+</html>
