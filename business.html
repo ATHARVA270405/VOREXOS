@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Board Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for the Inter font and main color */
+        :root {
+            --primary-color: #4f46e5; /* Indigo 600 */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* Slate 50 */
+        }
+        .job-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+            /* Ensure job-card has height for equal spacing, crucial for responsive grid */
+            height: 100%;
+        }
+        .job-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        /* Ensure the main container has responsive padding */
+        .main-container {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        @media (min-width: 640px) {
+            .main-container {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+        }
+        @media (min-width: 1024px) {
+            .main-container {
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#4f46e5',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen">
+
+    <header class="bg-gray-900 shadow-xl sticky top-0 z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row items-center justify-between">
+            
+            <div class="flex items-center space-x-3 mb-0 md:mb-0 ">
+                <img src="PIC/logo2.png" alt="Vorexo JobFinder Logo" class="h-20 w-auto filter invert">
+                <h1 class="text-3xl font-extrabold text-white">Vorexo</h1>
+            </div>
+            
+            <div class="w-full md:w-2/3 lg:w-1/2 flex space-x-2">
+                <input type="text" id="searchInput" placeholder="Search for title, company, or keyword..."
+                        class="flex-grow p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary shadow-sm"
+                        onkeyup="filterJobs()">
+                <button onclick="filterJobs()" class="bg-primary text-white p-3 rounded-lg hover:bg-indigo-700 transition duration-150 shadow-md flex items-center justify-center">
+                    <svg class="w-5 h-5 md:mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    <span class="hidden md:inline">Search</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-6">Latest Business Development Opportunities in India</h2>
+        
+        <div id="jobListings" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            </div>
+
+        <div id="noResults" class="hidden text-center py-10">
+            <p class="text-xl text-gray-500">
+                <svg class="w-10 h-10 inline-block text-primary mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172A4 4 0 0112 15.586v-5.172a4 4 0 012.828.172M18 10a8 8 0 11-16 0 8 8 0 0116 0z"></path></svg>
+                No jobs found matching your search criteria.
+            </p>
+        </div>
+    </main>
+
+    <script>
+        // Updated Job Data for the Indian Market (Salaries in ₹ Lakhs Per Annum - LPA)
+        const jobs = [
+            // --- Business Development Roles ---
+            { id: 1, title: "Senior Business Development Manager", company: "SecureGrowth Solutions", location: "Bangalore, Karnataka", type: "Full-time", salary: "₹15 LPA - ₹25 LPA", tags: ["B2B Sales", "Enterprise", "Strategy", "SaaS"], date: "1h ago", description: "Lead and close large-scale enterprise deals, developing strategic partnerships to drive revenue growth across India." },
+            { id: 2, title: "Business Development Executive (Inside Sales)", company: "GlobalServe IT", location: "Pune, Maharashtra", type: "Full-time", salary: "₹5 LPA - ₹8 LPA", tags: ["Lead Generation", "Cold Calling", "Target Achievment", "CRM"], date: "4h ago", description: "Focus on generating new leads and qualifying prospects through inside sales strategies and effective cold outreach." },
+            { id: 3, title: "Client Acquisition Specialist", company: "CorpSolutions India", location: "Mumbai, Maharashtra", type: "Full-time", salary: "₹8 LPA - ₹14 LPA", tags: ["Client Relations", "Market Research", "Negotiation", "FMCG"], date: "8h ago", description: "Develop and execute strategies to acquire new corporate clients within the specified regional market, managing the full sales cycle." },
+            { id: 4, title: "Strategic Partnerships Lead", company: "NetWatch Security", location: "Hyderabad, Telangana", type: "Contract", salary: "₹12 LPA - ₹20 LPA", tags: ["Partnerships", "Alliances", "Vendor Management", "Tech"], date: "1d ago", description: "Identify, vet, and manage strategic partners and channel alliances to expand market reach and product adoption." },
+            
+            // --- Related Sales/Marketing Roles (for variety) ---
+            { id: 5, title: "Marketing & Sales Associate", company: "Innovision Tech", location: "Remote (India)", type: "Full-time", salary: "₹4 LPA - ₹7 LPA", tags: ["Digital Marketing", "Entry Level", "Communication", "Trainee"], date: "2d ago", description: "Support the sales and marketing teams by preparing collateral, managing CRM data, and coordinating client outreach campaigns." },
+            { id: 6, title: "Regional Sales Manager (North India)", company: "DataQuest Analytics", location: "New Delhi, Delhi NCR", type: "Full-time", salary: "₹10 LPA - ₹18 LPA", tags: ["Team Leadership", "Distribution", "Quotas", "B2C"], date: "1w ago", description: "Lead a regional sales team, managing distribution channels and driving sales performance across North India." },
+            { id: 7, title: "Sales Development Representative (SDR)", company: "Nexus Innovations", location: "Bangalore, Karnataka", type: "Full-time", salary: "₹6 LPA - ₹10 LPA", tags: ["BDR", "Outbound", "Qualification", "Tech Sales"], date: "2w ago", description: "Focus on outbound prospecting to qualify and nurture leads for the Account Executives, setting up high-value meetings." },
+            
+            // --- Vorexo Job (New Entry) ---
+            { id: 8, title: "Director of Global Business Development", company: "Vorexo Solutions", location: "Mumbai, Maharashtra", type: "Full-time", salary: "₹30 LPA - ₹50 LPA", tags: ["International", "Executive", "Expansion", "Mergers"], date: "5m ago", description: "Define and execute the global business development strategy, focusing on market expansion and potential mergers/acquisitions." },
+        ];
+
+        const jobListingsContainer = document.getElementById('jobListings');
+        const noResultsMessage = document.getElementById('noResults');
+
+        /**
+         * Renders a single job card HTML element.
+         * @param {Object} job - The job data object.
+         * @returns {string} The HTML string for the job card.
+         */
+        function renderJobCard(job) {
+            const tagHTML = job.tags.map(tag => `
+                <span class="inline-block bg-indigo-100 text-indigo-700 text-xs font-medium px-3 py-1 rounded-full mr-2 mb-2">
+                    ${tag}
+                </span>
+            `).join('');
+
+            return `
+                <div class="job-card bg-white p-6 rounded-xl shadow-lg border border-gray-200 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="text-xl font-bold text-gray-900">${job.title}</h3>
+                            <span class="text-sm text-gray-500 whitespace-nowrap">${job.date}</span>
+                        </div>
+                        <p class="text-gray-600 mb-2 font-medium">${job.company}</p>
+                        <div class="flex items-center text-sm text-gray-500 mb-4">
+                            <svg class="w-4 h-4 mr-1 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.828 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            ${job.location}
+                        </div>
+                        <p class="text-lg font-semibold text-green-600 mb-4">${job.salary}</p>
+                        <p class="text-gray-700 text-sm mb-5 line-clamp-2">${job.description}</p>
+                    </div>
+                    <div class="flex flex-wrap items-center justify-between mt-auto pt-4 border-t border-gray-100">
+                        <div>
+                            ${tagHTML}
+                        </div>
+                        <a href="jobapply.html" class="text-primary hover:text-indigo-700 font-medium transition duration-150 flex items-center mt-2 sm:mt-0">
+                            Apply Now
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </a>
+                    </div>
+                </div>
+            `;
+        }
+
+        /**
+         * Filters and renders job listings based on the search input.
+         */
+        function filterJobs() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filteredJobs = jobs.filter(job => {
+                // Search across title, company, location, type, and tags
+                const searchString = `${job.title} ${job.company} ${job.location} ${job.type} ${job.tags.join(' ')}`.toLowerCase();
+                return searchString.includes(searchTerm);
+            });
+
+            jobListingsContainer.innerHTML = '';
+            
+            if (filteredJobs.length === 0) {
+                noResultsMessage.classList.remove('hidden');
+            } else {
+                noResultsMessage.classList.add('hidden');
+                filteredJobs.forEach(job => {
+                    jobListingsContainer.innerHTML += renderJobCard(job);
+                });
+            }
+        }
+
+        // Initial render on load
+        window.onload = filterJobs;
+    </script>
+
+</body>
+</html>
