@@ -334,7 +334,6 @@ body {
     --accent: #3b82f6; /* Bright blue for icons/accents */
 }
 
-/* Global Body Styles */
 
 
 .service-img {
@@ -2423,7 +2422,7 @@ h2 {
         
         @media (max-width: 768px) {
             body {
-                padding: 1rem;
+                padding: 0rem;
             }
             .page-container {
                 padding: 0;
